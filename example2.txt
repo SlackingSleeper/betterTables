@@ -1,0 +1,5 @@
+{| class="wikitable"
+! Camp !! Cost !! Specialization !! Resources Gathered
+|-
+| [[File:Woodcutters Camp Icon.png|60px]] <br>Woodcutters Camp || [[File:Parts.png|25px]] 2 Parts || [[File:Icon Spec Wood 64x64.png|25px]] Woodcutting || Wood
+|}

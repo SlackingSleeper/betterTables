@@ -67,6 +67,7 @@ int main(int argc, char* argv[])
 	catch(string booboo)
 	{
 		cout << booboo;
+		return -1;
 	}
 	switch(mode)
 	{
@@ -285,14 +286,15 @@ string csv_to_wiki_transform( string text)
 	for(int pos = text.find('@'); pos != string::npos; pos = text.find('@'))
 	{
 		smatch cell_match;
-		regex_search(text,
+		if(not regex_search(text,
 					cell_match,
-					regex("@(.+?)@(\\d+)"));
+					regex("@([^]+?)@(\\d+)")))
+			throw("Formating error: " + text);
 
 		string replacement_string = "[[File:" + cell_match[1].str() +
 									".png|" + cell_match[2].str() + "px]]";
 		text.replace(pos,
-					 cell_match.position(2) + cell_match.length(2),
+					 cell_match.position(2) + cell_match.length(2) - pos,
 					 replacement_string);
 	}
 	//While there are newlines left in text
@@ -308,14 +310,13 @@ string wiki_to_csv_transform(string text)
 	for(int pos = text.find('['); pos != string::npos; pos = text.find('['))
 	{
 		smatch m;
-		regex_search(text,
+		if(not regex_search(text,
 					 m,
-					 regex("\\[\\[File:(.+?)\\.png\\|(\\d+)"));
-		if(m.empty())
-			throw("Formating error");
+					 regex("\\[\\[File:(.+?)\\.png\\|(\\d+)")))
+			throw("Formating error: " + text);
 		string replacement_string = "@" + m.str(1) + "@" + m.str(2);
 		text.replace(pos,
-					 m.position(2) + m.length(2) + 4,
+					 m.position(2) + m.length(2) + 4 - pos,
 					 replacement_string);
 	}
 	for(int pos = text.find("<br>"); pos != string::npos; pos = text.find("<br>"))

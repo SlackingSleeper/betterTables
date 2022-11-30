@@ -320,7 +320,7 @@ string wiki_to_csv_transform(string text)
 	}
 	for(int pos = text.find("<br>"); pos != string::npos; pos = text.find("<br>"))
 	{
-		text.replace(pos, 3, "\n");
+		text.replace(pos, 4, "\n");
 	}
 	return text;
 }
